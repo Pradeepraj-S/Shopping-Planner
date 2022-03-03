@@ -20,6 +20,8 @@ export default function Product() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [allTotal, setAllTotal] = useState(0)
+
  
   const history = useHistory(''); 
 
@@ -65,6 +67,15 @@ export default function Product() {
     setdetails(filteredDetails);
     
   };
+
+  
+  useEffect(()=>{
+    let newtotal = 0
+    for (let i = 0; i<details.length; i++){
+        newtotal = (details[i].price*details[i].description)+newtotal
+    }
+    setAllTotal(newtotal)
+})
 
   
   let update = () => {
@@ -160,7 +171,8 @@ export default function Product() {
                 </tbody>
                 
               </table>
-              <tr> <h1 className='totalprice'>Total:{}</h1> </tr>
+              <tr> 
+              <h2 className='totalprice'> Total: {allTotal}</h2> </tr>
             </div>
             
           </div>
