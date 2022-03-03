@@ -2,21 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import Cart from './Cart';
 import { useHistory } from 'react-router-dom';
-import Check from './Check';
 import './Product.css';
 
-const getDatafromLS = () => {
-  const data = localStorage.getItem('details');
-  if (data) {
-    return JSON.parse(data);
-  } else {
-    return [];
-  }
-};
-
+// const getDatafromLS = () => {
+//   const data = localStorage.getItem('details');
+//   if (data) {
+//     return JSON.parse(data);
+//   } else {
+//     return [];
+//   }
+// };
 
 export default function Product() {
-  const [details, setdetails] = useState(getDatafromLS());
+  const [details, setdetails] = useState([]);
+  const [strikeDetails, setStrikeDetails] = useState([])
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -33,12 +32,29 @@ export default function Product() {
       price,
       
     };
+    setdetails([
+      ...details,
+      detail
+    ])
     setdetails([...details, detail]);
+    localStorage.setItem("detail", JSON.stringify(details));
     setName('');
     setDescription('');
     setPrice('');
     // history.push('/New')
   };
+
+  const strike = (id) => {
+    
+    let strikeDetail = details[id]
+    setStrikeDetails([
+      ...strikeDetails,
+      strikeDetail
+    ])
+    let newDetails = details
+    newDetails.splice(id, 1)
+    setdetails(newDetails)
+  }
 
  
 
@@ -55,43 +71,22 @@ export default function Product() {
     console.log('try')
     }
 
-  useEffect(() => {
-    localStorage.setItem('detail', JSON.stringify(details));
-  }, [details]);
-
-  const add = id => {
-    var counter = {};
-    if (localStorage.getItem('productId')) {
-      counter = JSON.parse(localStorage.getItem('productId'));
-    }
-    counter[id] = (counter[id] || 0) + 1;
-    localStorage.setItem('productId', JSON.stringify(counter));
-    setdetails(JSON.parse(localStorage.getItem('productId')));
-  };
-
-  const Subtract = id => {
-    var counter = {};
-    if (localStorage.getItem('productId')) {
-      counter = JSON.parse(localStorage.getItem('productId'));
-    }
-    counter[id] = (counter[id] || 1) - 1;
-    localStorage.setItem('productId', JSON.stringify(counter));
-    setdetails(JSON.parse(localStorage.getItem('productId')));
-  };
+    
 
   return (
     <div className="container">
       <div>
-        <h1>Add Cart</h1>
+        <h1>ADD CART</h1>
 
         <div className="">
           <div className="addproduct ">
             <form autoComplete="off" className="form-group" />
-            <label className="h4">Title</label>
+            <label className="h4">Product Name</label>
             <br />
             <input
               type="text"
               className="names"
+              placeholder='Enter the Product Name'
               required
               onChange={e => setName(e.target.value)}
               value={name}
@@ -102,6 +97,7 @@ export default function Product() {
             <input
               type="number"
               className="names"
+              placeholder='Enter the Quantity'
               required
               onChange={e => setDescription(e.target.value)}
               value={description}
@@ -112,6 +108,7 @@ export default function Product() {
             <input
               type="number"
               className="names"
+              placeholder='Enter the Price'
               required
               onChange={e => setPrice(e.target.value)}
               value={price}
@@ -129,24 +126,41 @@ export default function Product() {
           <br />
           <br />
           <div className="container">
-            <div className="table-responsive">
+            <div className="table-responsive addproduct">
               <table className="table">
                 <thead>
-                  <tr className="h4">
+                  <tr className="h3">
                     <td></td>
+                    <th>Action</th> 
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Delete</th>
-                    
                     <th>Total</th>
+                    
                   </tr>
+                  
                 </thead>
 
                 <tbody>
                   <Cart details={details} deleteDetail={deleteDetails} update={update} />
+
+                  {details.map((detail, index)=> {
+                    return(
+                      <tr className='text'>
+                      
+                      <td></td>
+                      <td onClick = {() => strike(index)}> <input type='checkbox' /></td>
+                      <td>{detail.name}</td>
+                      <td>{detail.description}</td>
+                      <td>{detail.price}</td>
+                      <td>{detail.description*detail.price}</td> 
+                      </tr>
+                    )
+                  })}
                 </tbody>
+                
               </table>
+              <tr> <h1 className='totalprice'>Total:{}</h1> </tr>
             </div>
             
           </div>
@@ -154,22 +168,32 @@ export default function Product() {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
+        
 
         <div className="container">
+          
           <div className="table-responsive">
             <table className="table">
               <thead>
-                <tr className="h4">
+                <tr className="h3">
                   <td></td>
                   <th>Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
-                  <th>Delete</th>
+                  
                   
                 </tr>
+                {strikeDetails.map((detail, index)=> {
+                  return(
+                    <tr className='text' >
+                    <td></td>
+                    <td>{detail.name}</td>
+                      <td>{detail.description}</td>
+                      <td>{detail.price}</td>
+                      
+                    </tr>
+                  )
+                })}
               </thead>
 
               <tbody>
@@ -180,12 +204,7 @@ export default function Product() {
             <br />
             <br />
             <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+            
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
     justify-content: center;
     padding-top: 20px;
     padding-bottom: 50px;
-    background-color:rgb(221, 221, 240);
+    background-color:rgb(191, 191, 207);
     margin-top: 20px;
   }
   .h6{
@@ -13,10 +13,9 @@
   }
   
 .names{
-    
-    padding-left: 60px;
-    font-size: 20px;
-    width: 600px;
+    padding-left: 40px;
+    font-size: 15px;
+    width: 300px;
     height: 50px;
     border-radius: 15px;
     border: none;
@@ -37,4 +36,10 @@
       border: none;
       margin-top: 20px;
     }
-     
+    .totalprice{
+      padding-top: 50px;
+      margin-left: 1020px;
+    }
+    .text{
+      font-size: 25px;
+    }
