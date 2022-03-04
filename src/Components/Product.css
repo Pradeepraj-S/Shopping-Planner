@@ -42,4 +42,9 @@
     }
     .text{
       font-size: 25px;
+      text-decoration: line-through;
+      text-decoration-color: red;
+    }
+    .text-i{
+      font-size: 25px;
     }

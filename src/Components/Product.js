@@ -157,7 +157,7 @@ export default function Product() {
 
                   {details.map((detail, index)=> {
                     return(
-                      <tr className='text'>
+                      <tr className='text-i'>
                       
                       <td></td>
                       <td onClick = {() => strike(index)}> <input type='checkbox' /></td>
